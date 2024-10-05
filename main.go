@@ -53,11 +53,14 @@ type Placejson struct {
 
 var visitedMap map[string]string
 var forbiddenURL []string
+var Depth int = 5                                                 //Depth of crawling
+var StartPoint string = "https://www.zomato.com/chennai/dine-out" //Starting point of the crawler
+var CsvFilePath string = "RestaurentList.csv"                     //Filename/File Path
 
 func main() {
 	fmt.Println(" Go Scrapper ")
 
-	file, err := os.Create("RestaurentList.csv")
+	file, err := os.Create(CsvFilePath)
 	if err != nil {
 		fmt.Println("Error Opening File")
 		return
@@ -121,10 +124,10 @@ func main() {
 		fmt.Println(" Visiting", r.URL)
 	})
 
-	// c.MaxDepth = 5 // Update the value depending on the need.
+	c.MaxDepth = Depth // Update the value depending on the need.
 	c.UserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:130.0) Gecko/20100101 Firefox/130.0"
 
-	err = c.Visit("https://www.zomato.com/chennai/dine-out")
+	err = c.Visit(StartPoint)
 	if err != nil {
 		return
 	}
